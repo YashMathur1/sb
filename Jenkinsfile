@@ -1,0 +1,39 @@
+pipeline {
+   agent any
+   tools {
+       jdk 'java-25'
+       maven 'jenkins-maven'
+   }
+   stages {
+       stage('Checkout') {
+           steps {
+               git branch: 'main', url: 'https://github.com/YashMathur1/sb.git'
+           }
+       }
+       stage('Build') {
+           steps {
+               sh 'mvn clean install -DskipTests'
+           }
+       }
+       stage('Test') {
+           steps {
+               sh 'mvn test'
+           }
+       }
+       stage('Package') {
+           steps {
+               sh 'mvn package'
+               archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+           }
+       }
+       stage('Deploy') {
+           steps {
+               sh 'scp target/*.jar user@server:/opt/app/'
+           }
+       }
+   }
+   post {
+       success { echo 'Deployment Successful!' }
+       failure { echo 'Deployment Failed!' }
+   }
+}
