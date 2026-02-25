@@ -12,6 +12,7 @@
 	<artifactId>sb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sb</name>
+	<packaging>jar</packaging>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
